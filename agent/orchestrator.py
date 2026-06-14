@@ -108,6 +108,7 @@ async def run_pulse(week: str, force: bool = False, email_mode: str = "draft"):
             app_info = await _call_with_retry(get_app_info, session, config)
             
             record.reviews_fetched = len(reviews)
+            insert_record(record)
             
             if not reviews:
                 logger.warning("Zero reviews fetched. Aborting pipeline.")
