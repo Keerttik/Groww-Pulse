@@ -64,15 +64,6 @@ function App() {
     }
   }
 
-  // Generate a fake sparkline SVG for aesthetics based on run id
-  const Sparkline = ({ seed }) => {
-    const points = [10, 25, 20, 45, 30, 60, 50, 80].map((y, i) => `${i * 30},${100 - (y + (seed % 20))}`).join(' ');
-    return (
-      <svg viewBox="0 0 210 100" className="sparkline" preserveAspectRatio="none">
-        <polyline fill="none" stroke="var(--accent-primary)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" points={points} />
-      </svg>
-    )
-  }
 
   return (
     <>
@@ -138,7 +129,6 @@ function App() {
                       <div className="metric-value">{run.themes_generated || 0}</div>
                     </div>
 
-                    <Sparkline seed={idx * 13} />
 
                     <a 
                       href={run.doc_id ? `https://docs.google.com/document/d/${run.doc_id}` : '#'} 
@@ -147,7 +137,7 @@ function App() {
                       className="btn-outline"
                       style={{ pointerEvents: run.doc_id ? 'auto' : 'none', opacity: run.doc_id ? 1 : 0.5 }}
                     >
-                      VIEW FULL ANALYTICS &rarr;
+                      VIEW DOC FILE &rarr;
                     </a>
                   </div>
                 ))}
