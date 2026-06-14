@@ -102,24 +102,7 @@ function App() {
           </button>
         </section>
 
-        <section className="features-grid">
-          <div className="feature-card">
-            <div className="feature-icon"><Icons.Check /></div>
-            <h3>INSTANT PLAY STORE DATA</h3>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon"><Icons.Chart /></div>
-            <h3>AI-DRIVEN THEME EXTRACTION</h3>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon"><Icons.Infinity /></div>
-            <h3>PII & NOISE REDUCTION</h3>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon"><Icons.Shield /></div>
-            <h3>AUTOMATED DOCS & EMAILS</h3>
-          </div>
-        </section>
+
 
         <div className="dashboard-layout">
           <div>
