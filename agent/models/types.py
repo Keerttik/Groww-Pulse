@@ -82,6 +82,7 @@ class Quote:
     text: str
     rating: int
     validated: bool
+    related_theme: str = ""
 
     def to_dict(self):
         return asdict(self)

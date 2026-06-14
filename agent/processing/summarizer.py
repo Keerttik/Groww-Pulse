@@ -33,7 +33,7 @@ For the theme, provide:
 1. A concise name
 2. A description of what users are experiencing
 3. The sentiment (positive, negative, neutral)
-4. A representative quote from the data that perfectly illustrates this theme
+4. EXACTLY 5 representative quotes from the data that perfectly illustrate this theme
 5. An actionable idea for the product team based on this theme
 
 Return ONLY a valid JSON object with this exact schema:
@@ -50,6 +50,7 @@ Return ONLY a valid JSON object with this exact schema:
     {
       "text": "str (must be an exact substring from the provided reviews)",
       "rating": 5,
+      "related_theme": "str (must exactly match the theme name)",
       "validated": true
     }
   ],

@@ -36,16 +36,17 @@ def render_doc_content(report: PulseReport, app_info: dict) -> DocContent:
     lines.append(f"Generated: {generated_str} | Reviews analyzed: {report.total_reviews_analyzed}")
     lines.append("")
     
-    lines.append("-- Top Themes --")
+    lines.append("-- Top Themes & Real Quotes --")
     for theme in report.themes:
         emoji = _sentiment_emoji(theme.sentiment)
         lines.append(f" {emoji} {theme.name}: {theme.description}")
-    lines.append("")
-    
-    lines.append("-- Real User Quotes --")
-    for q in report.quotes:
-        lines.append(f" • \"{q.text}\" (★{q.rating})")
-    lines.append("")
+        
+        # Display up to 5 quotes related to this theme
+        theme_quotes = [q for q in report.quotes if q.related_theme == theme.name]
+        if theme_quotes:
+            for q in theme_quotes[:5]:
+                lines.append(f"    • \"{q.text}\" (★{q.rating})")
+        lines.append("")
     
     lines.append("-- Action Ideas --")
     for i, a in enumerate(report.action_ideas, 1):
