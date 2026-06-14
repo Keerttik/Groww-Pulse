@@ -140,7 +140,7 @@ async def run_pulse(week: str, force: bool = False, email_mode: str = "draft"):
             
             # 6. Deliver Doc
             logger.info("Delivering document section...")
-            rest_url = os.environ.get("REST_SERVER_URL", config.rest_server_url)
+            rest_url = os.environ.get("REST_SERVER_URL", config.delivery.rest_server_url)
             doc_result = await _call_with_retry(append_section_to_doc, config.product.google_doc_id, doc_content, rest_url)
             
             if doc_result.status == "error":
