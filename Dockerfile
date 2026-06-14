@@ -7,11 +7,8 @@ COPY web/ ./
 RUN npm run build
 
 # Stage 2: Build the Python backend
-FROM python:3.11-slim
+FROM python:3.11
 WORKDIR /app
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y gcc sqlite3 && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 COPY requirements.txt .
