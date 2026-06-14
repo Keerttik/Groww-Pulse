@@ -28,8 +28,7 @@ def init_db(db_path: str = DB_PATH):
                 email_message_id TEXT,
                 email_mode TEXT,
                 llm_tokens_used INTEGER,
-                error_message TEXT,
-                UNIQUE(product, iso_week, status)
+                error_message TEXT
             )
         ''')
         conn.commit()
@@ -86,10 +85,12 @@ def insert_record(record: RunRecord, db_path: str = DB_PATH) -> None:
                 doc_heading_anchor, doc_id, email_message_id, email_mode,
                 llm_tokens_used, error_message
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ON CONFLICT(product, iso_week, status) DO UPDATE SET
-                run_id=excluded.run_id,
+            ON CONFLICT(run_id) DO UPDATE SET
+                product=excluded.product,
+                iso_week=excluded.iso_week,
                 started_at=excluded.started_at,
                 completed_at=excluded.completed_at,
+                status=excluded.status,
                 reviews_fetched=excluded.reviews_fetched,
                 clusters_found=excluded.clusters_found,
                 themes_generated=excluded.themes_generated,
