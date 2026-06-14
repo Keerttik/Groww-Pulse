@@ -141,16 +141,16 @@ async def run_pulse(week: str, force: bool = False, email_mode: str = "draft"):
             # 6. Deliver Doc
             logger.info("Delivering document section...")
             rest_url = os.environ.get("REST_SERVER_URL", config.delivery.rest_server_url)
-            doc_result = await _call_with_retry(append_section_to_doc, config.product.google_doc_id, doc_content, rest_url)
+            doc_result = await _call_with_retry(append_section_to_doc, config.product.google_doc_id, doc_content, rest_url, config.delivery.mcp_api_secret_key)
             
             if doc_result.status == "error":
                 raise RuntimeError("Document delivery failed.")
             
             # 7. Deliver Email
             logger.info(f"Delivering email ({email_mode} mode)...")
-            recipients = config.stakeholder_emails
+            recipients = config.product.stakeholder_emails
             # In 'draft' mode, it creates a draft. In 'send' mode, it would send (not implemented fully in REST server but handled there).
-            email_result = await _call_with_retry(create_email_draft, email_content, recipients, rest_url)
+            email_result = await _call_with_retry(create_email_draft, email_content, recipients, rest_url, config.delivery.mcp_api_secret_key)
             
             if email_result.status == "error":
                 logger.error("Email delivery failed, but doc succeeded.")
