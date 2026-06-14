@@ -1,5 +1,6 @@
 import asyncio
 import os
+import sys
 import time
 import datetime
 from contextlib import AsyncExitStack
@@ -90,9 +91,12 @@ async def run_pulse(week: str, force: bool = False, email_mode: str = "draft"):
         
         async with AsyncExitStack() as stack:
             # 2. Connect to Play Store MCP
+            env = os.environ.copy()
+            env["PYTHONPATH"] = os.getcwd()
             server_params = StdioServerParameters(
-                command="python",
-                args=["-m", "play_store_mcp.server"]
+                command=sys.executable,
+                args=["-m", "play_store_mcp.server"],
+                env=env
             )
             
             logger.info("Connecting to Play Store MCP...")
