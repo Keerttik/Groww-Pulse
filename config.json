@@ -1,0 +1,31 @@
+{
+  "product": {
+    "id": "groww",
+    "play_store_app_id": "com.nextbillion.groww",
+    "display_name": "Groww",
+    "google_doc_id": "<GOOGLE_DOC_ID>",
+    "stakeholder_emails": [
+      "product-team@example.com",
+      "leadership@example.com"
+    ]
+  },
+  "review_window_weeks": 10,
+  "max_reviews": 500,
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "clustering": {
+    "umap_n_components": 5,
+    "hdbscan_min_cluster_size": 10
+  },
+  "llm": {
+    "model": "gemini-2.0-flash",
+    "max_input_tokens": 50000,
+    "max_output_tokens": 4000,
+    "temperature": 0.3
+  },
+  "delivery": {
+    "email_mode": "draft",
+    "email_from_name": "Review Pulse Bot",
+    "rest_server_url": "https://mcp-production-9791.up.railway.app"
+  },
+  "run_records_dir": "data/run_records"
+}

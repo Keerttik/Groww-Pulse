@@ -1,0 +1,26 @@
+{
+  "play_store": {
+    "command": "python",
+    "args": ["-m", "play_store_mcp.server"],
+    "env": {
+      "PLAYSTORE_DEFAULT_COUNTRY": "in",
+      "PLAYSTORE_DEFAULT_LANG": "en",
+      "PLAYSTORE_MAX_REVIEWS": "500",
+      "PLAYSTORE_THROTTLE_MS": "1000"
+    }
+  },
+  "google_docs": {
+    "command": "npx",
+    "args": ["-y", "@anthropic/google-docs-mcp"],
+    "env": {
+      "GOOGLE_OAUTH_CREDENTIALS": "/path/to/credentials.json"
+    }
+  },
+  "gmail": {
+    "command": "npx",
+    "args": ["-y", "@anthropic/gmail-mcp"],
+    "env": {
+      "GOOGLE_OAUTH_CREDENTIALS": "/path/to/credentials.json"
+    }
+  }
+}

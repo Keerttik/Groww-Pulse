@@ -1,0 +1,31 @@
+# Core
+mcp>=1.0.0
+pydantic>=2.0.0
+python-dateutil>=2.8.0
+
+# Scraping
+google-play-scraper>=1.2.0
+
+# ML/NLP
+sentence-transformers>=2.2.0
+umap-learn>=0.5.0
+hdbscan>=0.8.0
+numpy>=1.24.0
+
+# LLM
+groq>=0.4.0
+
+# Dev
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+pyyaml>=6.0
+thefuzz>=0.20.0
+python-Levenshtein>=0.21.0
+
+# HTTP
+httpx>=0.24.0
+pytest-httpx>=0.22.0
+
+# API Server
+fastapi>=0.100.0
+uvicorn>=0.23.0

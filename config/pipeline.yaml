@@ -1,0 +1,8 @@
+llm:
+  max_tokens_per_run: 12000
+  request_interval_seconds: 2
+  sample_size_per_cluster: 5
+  max_retries_429: 3
+clustering:
+  min_reviews_floor: 20
+  mega_cluster_threshold: 0.8
