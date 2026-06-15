@@ -31,6 +31,10 @@ async def run_processing_pipeline(reviews: List[Review], app_info: dict, config:
         # ML Floor aborted
         raise ValueError("Not enough reviews to form clusters (below min_reviews_floor).")
         
+    # Rubric: Group reviews into 5 themes max
+    clusters.sort(key=lambda c: c.size, reverse=True)
+    clusters = clusters[:5]
+        
     # Scrub the clusters before sending to LLM
     for c in clusters:
         for r in c.reviews:

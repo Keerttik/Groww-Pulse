@@ -123,6 +123,21 @@ async def run_pulse(week: str, force: bool = False, email_mode: str = "draft"):
                 
             logger.info(f"Fetched {len(reviews)} reviews. Running processing pipeline...")
             
+            # Export reviews to CSV for grading deliverables
+            import csv
+            data_dir = os.environ.get('DATA_DIR', os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data'))
+            os.makedirs(data_dir, exist_ok=True)
+            csv_path = os.path.join(data_dir, 'reviews_export.csv')
+            try:
+                with open(csv_path, 'w', newline='', encoding='utf-8') as f:
+                    writer = csv.writer(f)
+                    writer.writerow(['Rating', 'Text', 'ThumbsUp'])
+                    for r in reviews:
+                        writer.writerow([r.rating, r.text, r.thumbs_up])
+                logger.info(f"Exported {len(reviews)} reviews to {csv_path}")
+            except Exception as e:
+                logger.warning(f"Could not write reviews CSV: {e}")
+
             # 4. Processing Pipeline
             report = await run_processing_pipeline(reviews, app_info, config, start_date, end_date)
             

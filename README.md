@@ -62,3 +62,17 @@ Groww Pulse is fully containerized and configured for 1-click deployment on **Ra
 4. Add a Persistent Volume to your Railway service and mount it to `/data` so your SQLite database (`/data/pulse.db`) survives deployments.
 5. Add the Environment Variables listed above in the Railway dashboard.
 6. The frontend dashboard will be available at your Railway public domain!
+
+## 🔄 How to re-run for a new week
+
+1. Open your hosted React Dashboard.
+2. Click the large green **"RUN PULSE NOW & FETCH INSIGHTS"** button.
+3. The backend will automatically compute the current ISO week, fetch the latest reviews, generate the themes, and upload the final 1-page note to the shared Google Doc.
+4. You can download the raw `reviews_export.csv` from the `/data` volume in Railway for debugging.
+
+## 📖 Theme Legend
+
+The AI pipeline uses Unsupervised Machine Learning (HDBSCAN) to discover themes organically rather than forcing reviews into hardcoded buckets. However, the LLM is instructed to classify the sentiment and nature of the themes. Typical themes include:
+- 🔴 **Negative Sentiment:** Bugs, crashes, login issues, or poor customer support experiences.
+- 🟡 **Neutral Sentiment:** Feature requests, general observations, or onboarding questions.
+- 🟢 **Positive Sentiment:** Praise for UI/UX, successful trades, or general app satisfaction.

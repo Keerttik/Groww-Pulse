@@ -36,20 +36,20 @@ def render_doc_content(report: PulseReport, app_info: dict) -> DocContent:
     lines.append(f"Generated: {generated_str} | Reviews analyzed: {report.total_reviews_analyzed}")
     lines.append("")
     
-    lines.append("-- Top Themes & Real Quotes --")
-    for theme in report.themes:
+    lines.append("-- Top 3 Themes & Quotes --")
+    for theme in report.themes[:3]:
         emoji = _sentiment_emoji(theme.sentiment)
         lines.append(f" {emoji} {theme.name}: {theme.description}")
         
-        # Display up to 5 quotes related to this theme
+        # Display 1 quote related to this theme
         theme_quotes = [q for q in report.quotes if q.related_theme == theme.name]
         if theme_quotes:
-            for q in theme_quotes[:5]:
-                lines.append(f"    • \"{q.text}\" (★{q.rating})")
+            q = theme_quotes[0]
+            lines.append(f"    • \"{q.text}\" (★{q.rating})")
         lines.append("")
     
-    lines.append("-- Action Ideas --")
-    for i, a in enumerate(report.action_ideas, 1):
+    lines.append("-- Top 3 Action Ideas --")
+    for i, a in enumerate(report.action_ideas[:3], 1):
         lines.append(f" {i}. {a.title}: {a.description}")
     lines.append("")
     
