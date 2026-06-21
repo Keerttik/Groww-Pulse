@@ -110,7 +110,9 @@ function App() {
               </div>
             ) : (
               <div className="runs-grid">
-                {runs.map((run, idx) => (
+                {runs.filter((run, index, self) => 
+                  index === self.findIndex((r) => r.iso_week === run.iso_week)
+                ).map((run, idx) => (
                   <div key={run.run_id} className="run-card">
                     <div className="run-card-header">
                       <div className="run-icon">W</div>
