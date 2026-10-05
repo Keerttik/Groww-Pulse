@@ -46,3 +46,6 @@ web/.npm/
 .vscode/
 .idea/
 .DS_Store
+
+# Local scratch scripts
+scratch_*.py

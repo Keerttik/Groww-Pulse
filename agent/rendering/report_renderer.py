@@ -43,6 +43,9 @@ def render_doc_content(report: PulseReport, app_info: dict) -> DocContent:
         
         # Display 1 quote related to this theme
         theme_quotes = [q for q in report.quotes if q.related_theme == theme.name]
+        if not theme_quotes and not any(q.related_theme for q in report.quotes) and report.themes.index(theme) < len(report.quotes):
+            theme_quotes = [report.quotes[report.themes.index(theme)]]
+
         if theme_quotes:
             q = theme_quotes[0]
             lines.append(f"    • \"{q.text}\" (★{q.rating})")

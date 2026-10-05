@@ -81,7 +81,7 @@ Return ONLY a valid JSON object with this exact schema:
             try:
                 response = await asyncio.to_thread(
                     client.chat.completions.create,
-                    model="llama-3.3-70b-versatile",
+                    model=os.getenv("GROQ_MODEL", "qwen/qwen3.8-27b"),
                     messages=[
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": reviews_xml}

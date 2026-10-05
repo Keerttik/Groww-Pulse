@@ -4,15 +4,15 @@
   --bg-primary: #0a0c10;
   --bg-secondary: #13161d;
   --bg-card: rgba(19, 22, 29, 0.7);
-  
+
   --text-primary: #f0f6fc;
   --text-secondary: #8b949e;
   --text-tertiary: #6e7681;
-  
+
   --accent-primary: #00e696;
   --accent-secondary: #00ffb3;
   --accent-glow: rgba(0, 230, 150, 0.4);
-  
+
   --border-color: rgba(240, 246, 252, 0.08);
   --error: #ff5555;
   --warning: #f1c40f;
@@ -39,7 +39,10 @@ body {
   flex-direction: column;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   color: var(--text-primary);
   margin-top: 0;
   font-weight: 800;
@@ -101,7 +104,9 @@ a:hover {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .container {
