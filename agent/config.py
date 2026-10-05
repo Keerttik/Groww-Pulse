@@ -4,6 +4,12 @@ import yaml
 from dataclasses import dataclass, field
 from typing import List
 
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
 @dataclass
 class ProductConfig:
     id: str
@@ -66,17 +72,25 @@ def load_config(path: str = "config.json") -> Config:
     if "play_store_app_id" not in product_data:
         raise ValueError("Missing 'play_store_app_id' in product config")
     
-    # Support reading GOOGLE_DOC_ID from environment to override config.json
-    doc_id = os.getenv("GOOGLE_DOC_ID", product_data.get("google_doc_id"))
+    # Support reading GOOGLE_DOC_ID from environment if placeholder or missing in config.json
+    doc_id = product_data.get("google_doc_id")
+    if not doc_id or doc_id == "<GOOGLE_DOC_ID>":
+        doc_id = os.getenv("GOOGLE_DOC_ID")
     if not doc_id or doc_id == "<GOOGLE_DOC_ID>":
         raise ValueError("Missing or placeholder 'google_doc_id' in product config and environment")
+
+    env_emails = os.getenv("STAKEHOLDER_EMAILS")
+    if env_emails:
+        stakeholder_emails = [e.strip() for e in env_emails.split(",") if e.strip()]
+    else:
+        stakeholder_emails = product_data.get("stakeholder_emails", [])
 
     product = ProductConfig(
         id=product_data.get("id", "groww"),
         play_store_app_id=product_data["play_store_app_id"],
         display_name=product_data.get("display_name", "Groww"),
         google_doc_id=doc_id,
-        stakeholder_emails=product_data.get("stakeholder_emails", [])
+        stakeholder_emails=stakeholder_emails
     )
 
     clustering_data = data.get("clustering", {})

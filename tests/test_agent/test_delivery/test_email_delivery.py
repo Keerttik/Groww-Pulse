@@ -56,3 +56,44 @@ async def test_create_email_draft_network_error(httpx_mock):
     result = await create_email_draft(email, recipients, rest_server_url)
     
     assert result.status == "error"
+
+@pytest.mark.asyncio
+async def test_send_email_success(httpx_mock):
+    from agent.delivery.email_delivery import send_email
+    rest_server_url = "https://mcp-production-9791.up.railway.app"
+    recipients = ["test@example.com"]
+    email = EmailContent(subject="Test Subject", html_body="<p>Body</p>", text_body="Body")
+    
+    httpx_mock.add_response(
+        method="POST",
+        url=f"{rest_server_url}/send_email",
+        json={"message_id": "msg_99999"}
+    )
+    
+    result = await send_email(email, recipients, rest_server_url)
+    assert result.status == "sent"
+    assert result.message_id == "msg_99999"
+
+@pytest.mark.asyncio
+async def test_send_email_fallback_to_draft(httpx_mock):
+    from agent.delivery.email_delivery import send_email
+    rest_server_url = "https://mcp-production-9791.up.railway.app"
+    recipients = ["test@example.com"]
+    email = EmailContent(subject="Test Subject", html_body="<p>Body</p>", text_body="Body")
+    
+    # 404 on send_email
+    httpx_mock.add_response(
+        method="POST",
+        url=f"{rest_server_url}/send_email",
+        status_code=404
+    )
+    # Then creates draft
+    httpx_mock.add_response(
+        method="POST",
+        url=f"{rest_server_url}/create_email_draft",
+        json={"draft_id": "draft_fallback"}
+    )
+    
+    result = await send_email(email, recipients, rest_server_url)
+    assert result.status == "drafted"
+    assert result.draft_id == "draft_fallback"

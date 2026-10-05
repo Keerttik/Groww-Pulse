@@ -19,6 +19,8 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [starting, setStarting] = useState(false)
 
+  const [emailMode, setEmailMode] = useState('send')
+
   const fetchRuns = async () => {
     try {
       const res = await fetch(`${API_URL}/runs`)
@@ -51,7 +53,7 @@ function App() {
       const res = await fetch(`${API_URL}/runs/start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ week: weekStr, force: true, email_mode: 'draft' })
+        body: JSON.stringify({ week: weekStr, force: true, email_mode: emailMode })
       })
 
       if (res.ok) {
@@ -63,7 +65,6 @@ function App() {
       setStarting(false)
     }
   }
-
 
   return (
     <>
@@ -83,17 +84,35 @@ function App() {
         <section className="hero">
           <h1>UNLOCK AUTOMATED APP REVIEW INTELLIGENCE. <span>NOT NOISE.</span></h1>
           <p>Access Verified Play Store Data & AI-Driven Analytics for Groww.</p>
-          <button 
-            className="btn-primary" 
-            onClick={handleStartPulse} 
-            disabled={starting}
-          >
-            {starting ? <div className="spinner" /> : null}
-            {starting ? 'TRIGGERING...' : 'RUN PULSE NOW & FETCH INSIGHTS'}
-          </button>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+            <button 
+              className="btn-primary" 
+              onClick={handleStartPulse} 
+              disabled={starting}
+            >
+              {starting ? <div className="spinner" /> : null}
+              {starting ? 'TRIGGERING...' : 'RUN PULSE NOW & FETCH INSIGHTS'}
+            </button>
+
+            <div className="mode-toggle-group">
+              <button 
+                type="button"
+                className={`mode-toggle-btn ${emailMode === 'send' ? 'active' : ''}`}
+                onClick={() => setEmailMode('send')}
+              >
+                ✉️ Send Email Directly
+              </button>
+              <button 
+                type="button"
+                className={`mode-toggle-btn ${emailMode === 'draft' ? 'active' : ''}`}
+                onClick={() => setEmailMode('draft')}
+              >
+                📝 Save as Gmail Draft
+              </button>
+            </div>
+          </div>
         </section>
-
-
 
         <div className="dashboard-layout">
           <div>
@@ -121,6 +140,12 @@ function App() {
                         <span className={`run-status ${run.status}`}>{run.status}</span>
                       </div>
                     </div>
+
+                    {run.status === 'failed' && run.error_message && (
+                      <div className="run-error-box">
+                        <strong>Error:</strong> {run.error_message}
+                      </div>
+                    )}
                     
                     <div className="metric-row">
                       <div className="metric-label">Reviews Fetched:</div>
@@ -131,6 +156,15 @@ function App() {
                       <div className="metric-value">{run.themes_generated || 0}</div>
                     </div>
 
+                    <div className="metric-row">
+                      <div className="metric-label">Email Status:</div>
+                      <div style={{ fontSize: '0.9rem', color: run.email_message_id ? 'var(--accent-primary)' : 'var(--text-secondary)' }}>
+                        {run.email_mode === 'send' 
+                          ? (run.email_message_id ? '✓ Sent to stakeholders' : (run.status === 'failed' ? 'Failed' : 'Pending send'))
+                          : (run.email_message_id ? '✓ Draft created in Gmail' : (run.status === 'failed' ? 'Failed' : 'Pending draft'))
+                        }
+                      </div>
+                    </div>
 
                     <a 
                       href={run.doc_id ? `https://docs.google.com/document/d/${run.doc_id}` : '#'} 

@@ -29,8 +29,10 @@ async def append_section_to_doc(doc_id: str, content: DocContent, rest_server_ur
             return DeliveryResult(status="appended", anchor=content.anchor_id)
             
     except httpx.HTTPStatusError as e:
-        logger.error(f"HTTP error {e.response.status_code} while appending to doc: {e.response.text}")
-        return DeliveryResult(status="error", anchor=content.anchor_id)
+        err = f"HTTP error {e.response.status_code} while appending to doc: {e.response.text}"
+        logger.error(err)
+        return DeliveryResult(status="error", anchor=content.anchor_id, error_message=err)
     except Exception as e:
-        logger.error(f"Error appending to doc: {str(e)}")
-        return DeliveryResult(status="error", anchor=content.anchor_id)
+        err = f"Error appending to doc: {str(e)}"
+        logger.error(err)
+        return DeliveryResult(status="error", anchor=content.anchor_id, error_message=err)

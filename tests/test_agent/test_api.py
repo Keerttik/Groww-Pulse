@@ -32,4 +32,4 @@ def test_start_pulse(mock_run_pulse):
     assert "triggered in the background" in response.json()["message"]
     # The BackgroundTask should call the mocked run_pulse eventually, 
     # FastAPI's TestClient executes background tasks inline.
-    mock_run_pulse.assert_called_once_with("2026-W25", False, "draft")
+    mock_run_pulse.assert_called_once_with("2026-W25", False, "send")
